@@ -2,6 +2,7 @@ package study.mapper;
 
 import org.apache.ibatis.annotations.Param;
 import study.pojo.Role;
+import study.vo.RoleVo;
 
 import java.util.List;
 import java.util.Set;
@@ -20,4 +21,18 @@ public interface RoleMapper {
     List<Integer> queryAllRoleidByUserId(@Param("userid") Integer userid);
 
     void deleteRolesByUserid(@Param("userid") Integer userid);
+
+    List<Role> queryAllrolesByxxx(@Param("order") String order, @Param("limit") Integer limit, @Param("offset") Integer offset);
+
+    Integer getCount();
+
+    void insertRoleMenu(@Param("roleId") Integer roleId, @Param("menuId") Integer menuId);
+
+    void insertRole(RoleVo roleVo);
+
+    RoleVo queryRoleByRoleId(@Param("roleId") Integer roleId);
+
+    void updateRole(RoleVo roleVo);
+
+    void deleteRoleByRoleId(@Param("roleId") Integer roleId);
 }

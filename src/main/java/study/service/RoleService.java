@@ -2,6 +2,7 @@ package study.service;
 
 import org.apache.ibatis.annotations.Param;
 import study.pojo.Role;
+import study.vo.RoleVo;
 
 import java.util.List;
 import java.util.Set;
@@ -21,5 +22,18 @@ public interface RoleService {
 
     void deleteRolesByUserid(@Param("userid") Integer userid);
 
+    List<Role> queryAllrolesByxxx(String order, Integer limit, Integer offset);
 
+    Integer getCount();
+
+    void insertRoleMenu(@Param("roleId") Integer roleId, @Param("menuId") Integer menuId);
+
+    void insertRole(RoleVo roleVo);
+
+    RoleVo queryRoleByRoleId(@Param("roleId") Integer roleId);
+
+
+    void updateRole(RoleVo roleVo);
+
+    void deleteRoleByRoleId(Integer roleId);
 }

@@ -1,5 +1,6 @@
 package study.pojo;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -26,5 +27,6 @@ public class Role {
     private String roleName;
     private String remark;
     private Integer createUserId;
+    @JSONField(format = "yyyy-MM-dd")
     private Date createTime;
 }

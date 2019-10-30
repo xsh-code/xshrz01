@@ -15,4 +15,13 @@ public interface MenuService {
 
     List<MenuVo> queryAllMenByUsernameAndParentid(@Param("userName") String userName, @Param("parentId") Integer parentId);
 
+    List<MenuVo> queryAllMenu();
+
+    List<Integer> queryAllMenuByRoleId(Integer roleId);
+
+    void deleteAllmenuByRoleId(Integer roleId);
+
+    List<MenuVo> queryAllMenuByxxx(@Param("order") String order, @Param("limit") Integer limit, @Param("offset") Integer offset);
+
+    Integer getCount();
 }

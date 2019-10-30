@@ -18,6 +18,7 @@ public interface UserMapper {
     List<User> queryAllUser();
 
     Integer insertUser(UserVo userVo);
+    void insertUser2(UserVo userVo);
 
     List<User> queryUserBylimit(@Param("sort") String sort, @Param("limit") Integer limit, @Param("offset") Integer offset);
 

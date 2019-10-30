@@ -15,5 +15,13 @@ public interface MenuMapper {
 
     List<MenuVo> queryAllMenByUsernameAndParentid(@Param("userName") String userName, @Param("parentId") Integer parentId);
 
+    List<MenuVo> queryAllMenu();
 
+    List<Integer> queryAllMenuByRoleId(Integer roleId);
+
+    List<MenuVo> queryAllMenuByxxx(@Param("order") String order, @Param("limit") Integer limit, @Param("offset") Integer offset);
+
+    Integer getCount();
+
+    void deleteAllmenuByRoleId(Integer roleId);
 }

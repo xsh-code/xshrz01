@@ -6,8 +6,23 @@
     <insert id="addRoles" >
         insert into sys_user_role (user_id,role_id) values (#{userid},#{roleid});
     </insert>
+    <insert id="insertRoleMenu">
+        insert into sys_role_menu (role_id,menu_id) values (#{roleId},#{menuId});
+    </insert>
+    <insert id="insertRole" parameterType="study.vo.RoleVo">
+        <selectKey keyProperty="roleId" order="AFTER" resultType="integer">
+            select LAST_INSERT_ID()
+        </selectKey>
+      insert into sys_role(role_name,remark,create_user_id,create_time) values (#{roleName},#{remark},#{createUserId},#{createTime})
+    </insert>
+    <update id="updateRole" parameterType="study.vo.RoleVo">
+        update sys_role set role_name=#{roleName},remark=#{remark},create_time=#{createTime}  where  role_id=#{roleId}
+    </update>
     <delete id="deleteRolesByUserid">
         delete from sys_user_role where user_id=#{userid}
+    </delete>
+    <delete id="deleteRoleByRoleId">
+        delete from sys_role where role_id=#{roleId}
     </delete>
 
     <select id="queryAllRoleNameByUSername" resultType="java.lang.String">
@@ -22,5 +37,16 @@
     </select>
     <select id="queryAllRoleidByUserId" resultType="java.lang.Integer">
         select role_id from sys_user_role where user_id=#{userid}
+    </select>
+    <select id="queryAllrolesByxxx" resultType="study.pojo.Role">
+         select * from sys_role
+         order by role_id ${order}
+         limit #{offset},#{limit}
+    </select>
+    <select id="getCount" resultType="java.lang.Integer">
+         select count(*) from sys_role
+    </select>
+    <select id="queryRoleByRoleId" resultType="study.vo.RoleVo">
+        select * from sys_role where role_id=#{roleId}
     </select>
 </mapper>

@@ -26,4 +26,29 @@ public class MenuServiceImpl implements MenuService {
     public List<MenuVo> queryAllMenByUsernameAndParentid(String userName, Integer parentId) {
         return menuMapper.queryAllMenByUsernameAndParentid(userName, parentId);
     }
+
+    @Override
+    public List<MenuVo> queryAllMenu() {
+        return menuMapper.queryAllMenu();
+    }
+
+    @Override
+    public List<Integer> queryAllMenuByRoleId(Integer roleId) {
+        return menuMapper.queryAllMenuByRoleId(roleId);
+    }
+
+    @Override
+    public void deleteAllmenuByRoleId(Integer roleId) {
+        menuMapper.deleteAllmenuByRoleId(roleId);
+    }
+
+    @Override
+    public List<MenuVo> queryAllMenuByxxx(String order, Integer limit, Integer offset) {
+        return menuMapper.queryAllMenuByxxx(order,limit,offset);
+    }
+
+    @Override
+    public Integer getCount() {
+        return menuMapper.getCount();
+    }
 }

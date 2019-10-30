@@ -19,5 +19,6 @@ public class UserVo {
     private String mobile;
     private String sex;
     private String status;
+    private Integer createUserId;
     private Integer[] roles;
 }

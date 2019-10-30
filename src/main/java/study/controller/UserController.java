@@ -12,8 +12,10 @@ import study.service.RoleService;
 import study.service.UserService;
 import study.utils.R;
 import study.vo.MenuVo;
+import study.vo.RoleVo;
 import study.vo.UserVo;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -92,7 +94,7 @@ public class UserController {
         return R.ok().put("total", count).put("rows", users);
     }
 
-    @PutMapping("/user/update")
+    @RequestMapping("/user/update")
     @ResponseBody
     public R userUpdate(@RequestBody UserVo userVo){
         userService.updateUserByUserid(userVo);
@@ -112,6 +114,9 @@ public class UserController {
     @RequestMapping("/user/save")
     @ResponseBody
     public R userSave(@RequestBody UserVo userVo){
+        String username = (String) SecurityUtils.getSubject().getPrincipal();
+        User user = userService.queryUserByUsername(username);
+        userVo.setCreateUserId(user.getUserId());
         Integer integer = userService.insertUser(userVo);
         Integer userId = userVo.getUserId();
         Integer[] roles = userVo.getRoles();
@@ -133,11 +138,82 @@ public class UserController {
     }
 
     @ResponseBody
-    @DeleteMapping("/user/del/{userId}")
+    @RequestMapping("/user/del/{userId}")
     public R deleteUser(@PathVariable Integer userId){
         userService.deleteUserByUserid(userId);
         roleService.deleteRolesByUserid(userId);
         return R.ok();
     }
+
+    @ResponseBody
+    @RequestMapping("/role/list")
+    public R rolelist(String order,Integer limit,Integer offset){
+        List<Role> roles = roleService.queryAllrolesByxxx(order, limit, offset);
+        Integer count = roleService.getCount();
+        return R.ok().put("rows", roles).put("total", count);
+    }
+
+    @ResponseBody
+    @RequestMapping("/menu/select")
+    public R menuSelect(){
+        List<MenuVo> menuVos = menuService.queryAllMenu();
+        return R.ok().put("menuList",menuVos);
+    }
+     @ResponseBody
+    @RequestMapping("/role/save")
+    public R roleSave(@RequestBody RoleVo roleVo){
+         String username = (String) SecurityUtils.getSubject().getPrincipal();
+         User user = userService.queryUserByUsername(username);
+         Integer userId = user.getUserId();
+         roleVo.setCreateUserId(userId);
+         roleVo.setCreateTime(new Date());
+         roleService.insertRole(roleVo);
+         System.out.println("=======================");
+         Integer[] menus = roleVo.getMenus();
+         for (Integer menu : menus) {
+             roleService.insertRoleMenu(roleVo.getRoleId(),menu);
+         }
+         return R.ok();
+     }
+    @ResponseBody
+    @RequestMapping("/role/info/{roleId}")
+    public R  roleInfoRoleId(@PathVariable Integer roleId){
+        RoleVo roleVo = roleService.queryRoleByRoleId(roleId);
+        List<Integer> list = menuService.queryAllMenuByRoleId(roleId);
+        Integer[] array = list.toArray(new Integer[0]);
+        roleVo.setMenus(array);
+        return R.ok().put("role",roleVo);
+    }
+    @ResponseBody
+    @RequestMapping("/role/update")
+    public R roleUpdate(@RequestBody RoleVo roleVo){
+        roleService.updateRole(roleVo);
+        menuService.deleteAllmenuByRoleId(roleVo.getRoleId());
+        Integer[] menus = roleVo.getMenus();
+        for (Integer menu : menus) {
+            roleService.insertRoleMenu(roleVo.getRoleId(), menu);
+        }
+        return R.ok();
+    }
+
+    @CrossOrigin("http://localhost:8082")
+    @ResponseBody
+    @DeleteMapping("/roles/{roleId}")
+    public R roleDelete(@PathVariable Integer roleId){
+        roleService.deleteRoleByRoleId(roleId);
+        menuService.deleteAllmenuByRoleId(roleId);
+        return R.ok();
+    }
+
+    @ResponseBody
+    @RequestMapping("/menu/list")
+    public R menuList(String order,Integer limit,Integer offset){
+        List<MenuVo> menuVos = menuService.queryAllMenuByxxx(order, limit, offset);
+        Integer count = menuService.getCount();
+        return R.ok().put("total", count).put("rows", menuVos);
+    }
+
+
+
 
 }

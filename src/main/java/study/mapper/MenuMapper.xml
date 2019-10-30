@@ -3,6 +3,9 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="study.mapper.MenuMapper">
+    <delete id="deleteAllmenuByRoleId">
+        delete from sys_role_menu where role_id=#{roleId}
+    </delete>
 
     <select id="queryAllMenuByUsername" resultType="java.lang.String">
         select  m.perms
@@ -21,5 +24,19 @@
         join sys_role_menu as rm on r.role_id=rm.role_id
         join sys_menu as m on rm.menu_id=m.menu_id
         where u.username=#{userName} and m.parent_id=#{parentId}
+    </select>
+    <select id="queryAllMenu" resultType="study.vo.MenuVo">
+        select * from  sys_menu
+    </select>
+    <select id="queryAllMenuByRoleId" resultType="java.lang.Integer">
+         select menu_id from sys_role_menu where role_id=#{roleId}
+    </select>
+    <select id="queryAllMenuByxxx" resultType="study.vo.MenuVo">
+        select * from sys_menu
+        order by menu_id  ${order}
+        limit #{offset},#{limit}
+    </select>
+    <select id="getCount" resultType="java.lang.Integer">
+        select count(*) from sys_menu
     </select>
 </mapper>

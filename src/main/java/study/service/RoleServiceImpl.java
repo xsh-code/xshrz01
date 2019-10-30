@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import study.mapper.RoleMapper;
 import study.pojo.Role;
+import study.vo.RoleVo;
 
 import java.util.List;
 import java.util.Set;
@@ -39,5 +40,40 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public void deleteRolesByUserid(Integer userid) {
         roleMapper.deleteRolesByUserid(userid);
+    }
+
+    @Override
+    public List<Role> queryAllrolesByxxx(String order, Integer limit, Integer offset) {
+        return roleMapper.queryAllrolesByxxx(order,  limit, offset);
+    }
+
+    @Override
+    public Integer getCount() {
+        return roleMapper.getCount();
+    }
+
+    @Override
+    public void insertRoleMenu(Integer roleId, Integer menuId) {
+        roleMapper.insertRoleMenu(roleId, menuId);
+    }
+
+    @Override
+    public void insertRole(RoleVo roleVo) {
+        roleMapper.insertRole(roleVo);
+    }
+
+    @Override
+    public RoleVo queryRoleByRoleId(Integer roleId) {
+        return roleMapper.queryRoleByRoleId(roleId);
+    }
+
+    @Override
+    public void updateRole(RoleVo roleVo) {
+        roleMapper.updateRole(roleVo);
+    }
+
+    @Override
+    public void deleteRoleByRoleId(Integer roleId) {
+        roleMapper.deleteRoleByRoleId(roleId);
     }
 }

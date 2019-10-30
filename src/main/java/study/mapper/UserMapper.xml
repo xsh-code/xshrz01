@@ -7,18 +7,22 @@
         <selectKey keyProperty="userId" order="AFTER" resultType="integer">
             select LAST_INSERT_ID()
         </selectKey>
+        insert into sys_user(username,password,email,mobile,status,create_user_id,sex)
+        values(#{username},#{password},#{email},#{mobile},#{status},#{createUserId},#{sex})
+    </insert>
+    <insert id="insertUser2" parameterType="study.vo.UserVo">
+        <selectKey keyProperty="userId" order="AFTER" resultType="integer">
+            select LAST_INSERT_ID()
+        </selectKey>
         insert into sys_user(username,password,email,mobile,status,sex)
         values(#{username},#{password},#{email},#{mobile},#{status},#{sex})
     </insert>
     <update id="updateUserByUserid" parameterType="study.vo.UserVo">
         update sys_user set username=#{username},email=#{email},mobile=#{mobile},status=#{status},sex=#{sex} where user_id=#{userId}
-
     </update>
     <delete id="deleteUserByUserid">
         delete from sys_user where user_id=#{userid}
     </delete>
-
-
     <select id="queryUserByUsername" resultType="study.pojo.User">
         select * from sys_user where username=#{username};
     </select>
