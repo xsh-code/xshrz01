@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="study.mapper.RoleMapper">
+    <insert id="addRoles" >
+        insert into sys_user_role (user_id,role_id) values (#{userid},#{roleid});
+    </insert>
+    <delete id="deleteRolesByUserid">
+        delete from sys_user_role where user_id=#{userid}
+    </delete>
+
+    <select id="queryAllRoleNameByUSername" resultType="java.lang.String">
+        select r.role_name
+        from sys_user as u
+        join sys_user_role as ur on u.user_id=ur.user_id
+        join sys_role as r on ur.role_id=r.role_id
+        where u.username=#{username}
+    </select>
+    <select id="queryAllRoles" resultType="study.pojo.Role">
+        select * from sys_role
+    </select>
+    <select id="queryAllRoleidByUserId" resultType="java.lang.Integer">
+        select role_id from sys_user_role where user_id=#{userid}
+    </select>
+</mapper>

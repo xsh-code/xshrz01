@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="study.mapper.UserMapper">
+    <insert id="insertUser" parameterType="study.vo.UserVo">
+        <selectKey keyProperty="userId" order="AFTER" resultType="integer">
+            select LAST_INSERT_ID()
+        </selectKey>
+        insert into sys_user(username,password,email,mobile,status,sex)
+        values(#{username},#{password},#{email},#{mobile},#{status},#{sex})
+    </insert>
+    <update id="updateUserByUserid" parameterType="study.vo.UserVo">
+        update sys_user set username=#{username},email=#{email},mobile=#{mobile},status=#{status},sex=#{sex} where user_id=#{userId}
+
+    </update>
+    <delete id="deleteUserByUserid">
+        delete from sys_user where user_id=#{userid}
+    </delete>
+
+
+    <select id="queryUserByUsername" resultType="study.pojo.User">
+        select * from sys_user where username=#{username};
+    </select>
+    <select id="queryAllUser" resultType="study.pojo.User">
+        select * from sys_user
+    </select>
+    <select id="queryUserBylimit" resultType="study.pojo.User">
+        select * from  sys_user  order by  user_id  ${sort}  limit #{offset},#{limit}
+    </select>
+    <select id="getCount" resultType="java.lang.Integer">
+        select count(*) from sys_user
+    </select>
+    <select id="queryUserByUserid" resultType="study.vo.UserVo">
+        select * from sys_user where user_id=#{userid}
+    </select>
+</mapper>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/aop
+                           http://www.springframework.org/schema/aop/spring-aop.xsd
+                           http://www.springframework.org/schema/context
+                           http://www.springframework.org/schema/context/spring-context.xsd
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx.xsd">
+    <!--  shiro配置   -->
+    <!--  shiroFilter  -->
+    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+        <property name="securityManager" ref="securityManager"/>
+    </bean>
+    <!--  SecurityManager核心  -->
+    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <property name="realm" ref="realm"/>
+        <property name="rememberMeManager" ref="rememberMeManager"/>
+    </bean>
+    <!-- Realm -->
+    <bean name="realm" class="study.realm.MyRealm">
+        <property name="userService" ref="userServiceImpl"/>
+        <property name="roleService" ref="roleServiceImpl"/>
+        <property name="menuService" ref="menuServiceImpl"/>
+        <property name="credentialsMatcher">
+            <bean class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
+                <property name="hashAlgorithmName" value="SHA-256"/>
+                <property name="storedCredentialsHexEncoded" value="false"/>
+                <property name="hashIterations" value="10000"/>
+            </bean>
+        </property>
+    </bean>
+    <!--  remberme 声明Cooick  -->
+    <bean id="rememberMeCooick" class="org.apache.shiro.web.servlet.SimpleCookie">
+        <property name="name" value="rememberMe"/>
+        <property name="httpOnly" value="true"/>
+        <property name="maxAge" value="604800"/>
+    </bean>
+    <!-- rememberMeManager  -->
+    <bean id="rememberMeManager" class="org.apache.shiro.web.mgt.CookieRememberMeManager">
+        <property name="cookie" ref="rememberMeCooick"/>
+    </bean>
+
+</beans>
